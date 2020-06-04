@@ -1,0 +1,71 @@
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
+// Library for changing the wifi network with localhost in nodemcu 
+#include <ESP8266WiFi.h>
+#include <FirebaseArduino.h>
+
+#define FIREBASE_HOST "" //Here comes your realtime DB hostlink
+#define FIREBASE_AUTH ""//AUTH key provided by firebase
+void setup() {
+  
+  Serial.begin(9600);
+  pinMode(16, OUTPUT);
+  digitalWrite(16,HIGH);
+  pinMode(14, OUTPUT);
+  digitalWrite(14,HIGH);
+  pinMode(12, OUTPUT);
+  digitalWrite(12,HIGH);
+  pinMode(13, OUTPUT);
+  digitalWrite(13,HIGH);
+  WiFiManager wifiManager;
+  wifiManager.resetSettings();
+  wifiManager.autoConnect("CIRCUIT DIGEST WiFi Manager");
+  Serial.print("connecting..");
+  Serial.print("connected: ");
+  Serial.println(WiFi.localIP());
+  
+  Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
+}
+
+bool a,b,c,d;
+void loop() {
+
+while (WiFi.status() != WL_CONNECTED) {
+Serial.print(".");
+delay(500);
+}
+ //getting the whole path under nowresh directory
+FirebaseObject object = Firebase.get("nowresh/");
+
+a = object.getBool("relay1");
+
+b = object.getBool("relay2");
+
+c = object.getBool("relay3");
+
+d = object.getBool("relay4");
+
+//LOW defines output 'high'(both are inverted)
+if(a==1)
+{digitalWrite(16,LOW);}
+else
+{digitalWrite(16,HIGH);}
+
+if(b==1)
+{digitalWrite(14,LOW);}
+else
+{digitalWrite(14,HIGH);}
+
+if(c==1)
+{digitalWrite(12,LOW);}
+else
+{digitalWrite(12,HIGH);}
+
+if(d==1)
+{digitalWrite(13,LOW);}
+else
+{digitalWrite(13,HIGH);}
+
+delay(200);
+}

@@ -1,0 +1,42 @@
+// MAIN_NOTE 
+// I have used kotlin language for developing android app
+
+
+
+
+package com.example.nodecontrol
+
+import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.database.FirebaseDatabase
+
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        val database = FirebaseDatabase.getInstance()
+        val relay1 = database.getReference("nowresh/relay1")
+        val relay2 = database.getReference("nowresh/relay2")
+        val relay3 = database.getReference("nowresh/relay3")
+        val relay4 = database.getReference("nowresh/relay4")
+        val on1 = findViewById<Button>(R.id.ON1)
+        val off1 = findViewById<Button>(R.id.OFF1)
+        val on2 = findViewById<Button>(R.id.ON2)
+        val off2 = findViewById<Button>(R.id.OFF2)
+        val on3 = findViewById<Button>(R.id.ON3)
+        val off3 = findViewById<Button>(R.id.OFF3)
+        val on4 = findViewById<Button>(R.id.ON4)
+        val off4 = findViewById<Button>(R.id.OFF4)
+        on1.setOnClickListener{relay1.setValue(true) }
+        off1.setOnClickListener{relay1.setValue(false)}
+        on2.setOnClickListener{relay2.setValue(true) }
+        off2.setOnClickListener{relay2.setValue(false)}
+        on3.setOnClickListener{relay3.setValue(true) }
+        off3.setOnClickListener{relay3.setValue(false)}
+        on4.setOnClickListener{relay4.setValue(true) }
+        off4.setOnClickListener{relay4.setValue(false)}
+    }
+}
